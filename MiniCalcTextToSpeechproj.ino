@@ -1,13 +1,5 @@
 
-/* Mini Calculator Text to Speech Project
- *
- * Reads two number inputs and operation from the user such that x is the first number to be computed, y is the second number, and the operation on the two numbers. 
- The user input is lit up on the PCB and then converted to the speaker as a human voice uttering the result using the Talkie module. 
- *
- * Student: Bekhruz Malikov
- * Name: Text to Speech Mini-Calculator
- */
-
+/* Mini Calculator Text to Speech Project */
 
 #include <Arduino.h>
 #include "Talkie.h"
@@ -1234,10 +1226,4 @@ void loop() {
 // RESULT FUNCTION SHOULD LIGHT UP APPROPRIATE LEDS
 
 
-//TODO:
-// 0) Fix the ghosting bug
-// 1) Get Results to show up on screen
-// 2) Finish up the array of all numbers to show on up screen
-// MILESTONE WOOOOOO -> 10 hours to kill this sucker
-// 3) Solder + attach speaker 
-// 4) Code up the talkie module TTS
+
