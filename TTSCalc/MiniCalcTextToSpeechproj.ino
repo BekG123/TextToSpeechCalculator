@@ -1,5 +1,24 @@
-/* Mini Calculator Text to Speech Project */
+
+/* Mini Calculator Text to Speech Project
+ *
+ * Reads two number inputs and operation from the user such that x is the first number to be computed, y is the second number, and the operation on the two numbers. 
+ The user input is lit up on the PCB and then converted to the speaker as a human voice uttering the result using the Talkie module. 
+ *
+ * Student: Bekhruz Malikov
+ * Name: Text to Speech Mini-Calculator
+ */
+
+
 #include <Arduino.h>
+#include "Talkie.h"
+#include "Vocab_US_Large.h"
+
+Talkie voice;
+
+//TEST FOR SPEAKER LED BUG 
+// #define SPEAKER_PIN 3   // Pin for speaker
+// #define LED_PIN 13
+
 // Arrays of pin numbers
 const byte ANODE_PINS[8] = {13, 12, 11, 10, 9, 8, 7, 6};
 const byte CATHODE_PINS[8] = {A3, A2, A1, A0, 5, 4, 3, 2};
@@ -15,8 +34,15 @@ unsigned long lastMillis = 0;  // Variable to track time
 unsigned long displayDuration = 1000;  // Duration for LEDs to stay on (1 second)
 bool ledOn = false;
 
+//TEST FOR SPEAKER LED BUG
+// bool LEDInUse = false; // Flag to track if the speaker is in use
+
+
 void setup() {
-  
+
+  //TEST FOR SPEAKER LED BUG 
+  // pinMode(SPEAKER_PIN, OUTPUT);
+
   // Configure all 8 anode (+) and all 8 cathode (-) pins to outputs
   for (byte i = 0; i < 8; i++) {
     pinMode(ANODE_PINS[i], OUTPUT);
@@ -27,7 +53,8 @@ void setup() {
     pinMode(ANODE_PINS[i], HIGH);
     pinMode(CATHODE_PINS[i], HIGH);
   }
-  
+
+
   // Initialize serial communication
   // (to be read by Serial Monitor on your computer)
   Serial.begin(115200);
@@ -772,8 +799,11 @@ void showResult() {
     clearDisplay();
     turnOnLed(7,7);
     clearDisplay();
+    
+    
+    // say the result 
   }
-  
+
   else if (result == 1) {
     //the second column of '1'
     turnOnLed(0,7);
@@ -1025,7 +1055,18 @@ void showResult() {
   }
 }
 
-
+void sayResult() {
+  if (result == 0) {
+    voice.say(sp2_THE);
+    delay(200);
+    voice.say(sp3_ANSWER);
+    delay(200);
+    voice.say(sp2_IS);
+    delay(200);
+    voice.say(sp2_ZERO);
+  }
+  if ()
+}
     //test 
   // After the display duration has passed, clear the display and move to the next state
 
@@ -1068,6 +1109,14 @@ void loop() {
   //turn every LED off before starting
   clearDisplay();
  
+ //TEST FOR THE SPEAKER LED BUG
+  // if (LEDInUse) {
+
+  //   pinMode(SPEAKER_PIN, INPUT);  // Set pin 3 as output for speaker
+  //   pinMode(LED_PIN, OUTPUT);       // Disable LED pin, so it won't interfere with the speaker
+
+  //TEST FOR SPEAKER/LED BUG 
+
 
   //User Inputs
   if (Serial.available()) {
@@ -1139,7 +1188,16 @@ void loop() {
         //the result
         showResult();
       }
+      sayResult();
     }
+ 
+    //TEST TO FIX THE DARN LED SPEAKER MIX UP BUG!!!
+    // if pin 3 is not used for speaker, use it for LEDs
+    // therwise, use it for speaker
+    // LEDInUse = false;
+
+  
+
 
     //CALCULATIONS 
 
@@ -1165,13 +1223,21 @@ void loop() {
         Serial.println("The operation is out of range - invalid input");
         return; 
       }
-  
+
   } // end of the input loop
-  
 
 }
+
 
 // GET USER INPUT FIRST AND CHECK WHETHER IT IS VALID, IN RANGE
 // CALL THE RESULT FUNCTION HERE AS IT IS CALLED EVERY LOOP
 // RESULT FUNCTION SHOULD LIGHT UP APPROPRIATE LEDS
 
+
+//TODO:
+// 0) Fix the ghosting bug
+// 1) Get Results to show up on screen
+// 2) Finish up the array of all numbers to show on up screen
+// MILESTONE WOOOOOO -> 10 hours to kill this sucker
+// 3) Solder + attach speaker 
+// 4) Code up the talkie module TTS
