@@ -16,7 +16,7 @@ unsigned long displayDuration = 1000;  // Duration for LEDs to stay on (1 second
 bool ledOn = false;
 
 void setup() {
-
+  
   // Configure all 8 anode (+) and all 8 cathode (-) pins to outputs
   for (byte i = 0; i < 8; i++) {
     pinMode(ANODE_PINS[i], OUTPUT);
